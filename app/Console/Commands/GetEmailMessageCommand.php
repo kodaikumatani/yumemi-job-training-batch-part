@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Service\ManageMailboxes;
 use Illuminate\Console\Command;
 
 class GetEmailMessageCommand extends Command
@@ -23,11 +24,11 @@ class GetEmailMessageCommand extends Command
     /**
      * Execute the console command.
      *
-     * @return int
+     * @return void
      */
     public function handle()
     {
-        require "app/Service/quickstart.php";
+        dump(ManageMailboxes::getMessage());
         //return Command::SUCCESS;
     }
 }

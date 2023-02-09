@@ -16,4 +16,5 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
-/creds
+/creds/credentials.json
+/creds/token.json
