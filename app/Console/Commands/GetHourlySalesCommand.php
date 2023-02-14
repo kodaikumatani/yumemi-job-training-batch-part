@@ -8,7 +8,7 @@ use App\Service\ManageMailboxes;
 use Google\Exception;
 use Illuminate\Console\Command;
 
-class GetEmailMessageCommand extends Command
+class GetHourlySalesCommand extends Command
 {
     /**
      * The name and signature of the console command.
