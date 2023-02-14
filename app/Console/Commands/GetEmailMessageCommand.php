@@ -2,7 +2,10 @@
 
 namespace App\Console\Commands;
 
+use App\Http\Controllers\HourlySalesController;
+use App\Models\HourlySales;
 use App\Service\ManageMailboxes;
+use Google\Exception;
 use Illuminate\Console\Command;
 
 class GetEmailMessageCommand extends Command
@@ -25,10 +28,10 @@ class GetEmailMessageCommand extends Command
      * Execute the console command.
      *
      * @return void
+     * @throws Exception
      */
-    public function handle()
+    public function handle(): void
     {
-        dump(ManageMailboxes::getMessage());
-        //return Command::SUCCESS;
+        HourlySalesController::storeFlashSales();
     }
 }

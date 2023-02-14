@@ -41,4 +41,17 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @param $name
+     * @return int
+     */
+    public static function getUserId($name): int
+    {
+        return self::query()
+            ->where('name', $name)
+            ->value('id');
+    }
 }
