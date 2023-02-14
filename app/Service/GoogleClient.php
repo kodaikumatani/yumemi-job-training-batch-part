@@ -10,6 +10,7 @@ class GoogleClient
 {
     /**
      * Returns an authorized API client.
+     *
      * @return Google_Client the authorized client object
      * @throws Exception
      */
@@ -22,9 +23,22 @@ class GoogleClient
             Google_Service_Gmail::GMAIL_SEND,
             Google_Service_Gmail::GMAIL_MODIFY
         ]);
-        $client->setAuthConfig('creds/credentials.json');
-        $client->setAccessType('offline');
-        $client->setPrompt('select_account consent');
+        $credentialsPath = 'creds/credentials.json';
+        if (file_exists($credentialsPath)) {
+            $client->setAuthConfig($credentialsPath);
+            $client->setAccessType('offline');
+            $client->setPrompt('select_account consent');
+        } else {
+            $filename = 'tests/Feature/sample.txt';
+            $fp = fopen($filename, 'r');
+            $txt = "";
+            while (!feof($fp)) {
+                $txt .= str_replace("\n", "\r\n", fgets($fp));
+            }
+            dump(MailAnalysis::regex(1675852326, $txt));
+            fclose($fp);
+            exit();
+        }
 
         // Load previously authorized token from a file, if it exists.
         // The file token.json stores the user's access and refresh tokens, and is
@@ -36,7 +50,7 @@ class GoogleClient
             $client->setAccessToken($accessToken);
         }
 
-        // If there is no previous token or it's expired.
+        // If there is no previous token, or it's expired.
         if ($client->isAccessTokenExpired()) {
             // Refresh the token if possible, else fetch a new one.
             if ($client->getRefreshToken()) {
