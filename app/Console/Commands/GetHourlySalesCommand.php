@@ -3,8 +3,6 @@
 namespace App\Console\Commands;
 
 use App\Http\Controllers\HourlySalesController;
-use App\Models\HourlySales;
-use App\Service\ManageMailboxes;
 use Google\Exception;
 use Illuminate\Console\Command;
 
