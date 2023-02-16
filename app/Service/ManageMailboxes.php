@@ -25,7 +25,7 @@ class ManageMailboxes
         $optParams = [
             'maxResults' => '10',
             'labelIds' => 'UNREAD',
-            'q' => "subject:JA鳥取いなば直売所売上速報　from:".env('JA-INABA_FROM_ADDRESS')
+            'q' => "subject:JA鳥取いなば直売所売上速報　from:".config('mail.from.address')
         ];
         // Get a list of emails that match the conditions.
         $data = [];
