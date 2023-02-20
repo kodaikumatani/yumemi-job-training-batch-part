@@ -23,7 +23,7 @@ class ManageMailboxes
 
         $user = 'me';
         $optParams = [
-            'maxResults' => '1',
+            'maxResults' => '10',
             'labelIds' => 'UNREAD',
             'q' => "subject:JA鳥取いなば直売所売上速報　from:".config('mail.from.address')
         ];
@@ -39,8 +39,8 @@ class ManageMailboxes
             $decoded_bytes = base64_decode($trance_encode_bytes);
             $data = array_merge($data, MailAnalysis::regex($internal_date,$decoded_bytes));
               // Remove the unread label.
-//            $mods->setRemoveLabelIds(['UNREAD']);
-//            $service->users_messages->modify('me', $message_id, $mods);
+            $mods->setRemoveLabelIds(['UNREAD']);
+            $service->users_messages->modify('me', $message_id, $mods);
         }
         return $data;
     }
