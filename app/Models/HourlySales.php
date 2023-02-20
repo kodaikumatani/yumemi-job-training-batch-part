@@ -34,7 +34,7 @@ class HourlySales extends Model
      * @param $product_id
      * @return bool
      */
-    public static function searchRecord($date, $hour, $user_id, $store_id, $product_id): bool
+    public static function recordIsEmpty($date, $hour, $user_id, $store_id, $product_id): bool
     {
         return self::query()
             ->where('dateTime', $date)

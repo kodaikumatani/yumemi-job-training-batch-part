@@ -25,7 +25,7 @@ class Store extends Model
      * @param $name
      * @return bool
      */
-    public static function searchRecord($id, $name): bool
+    public static function recordIsEmpty($id, $name): bool
     {
         return self::query()
             ->where('user_id', $id)

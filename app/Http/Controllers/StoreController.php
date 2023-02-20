@@ -14,7 +14,7 @@ class StoreController extends Controller
      */
     public static function generateStoreId($id, $name): int
     {
-        if (Store::searchRecord($id, $name)) {
+        if (Store::recordIsEmpty($id, $name)) {
             Store::create(['user_id' => $id, 'name' => $name]);
         }
         return Store::getStoreId($id, $name);
