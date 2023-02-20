@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -15,7 +17,7 @@ class HourlySales extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'date',
+        'dateTime',
         'hour',
         'user_id',
         'store_id',
@@ -35,7 +37,7 @@ class HourlySales extends Model
     public static function searchRecord($date, $hour, $user_id, $store_id, $product_id): bool
     {
         return self::query()
-            ->where('date', $date)
+            ->where('dateTime', $date)
             ->where('hour', $hour)
             ->where('user_id', $user_id)
             ->where('store_id', $store_id)
