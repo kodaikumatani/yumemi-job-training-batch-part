@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class HourlySales extends Model
+class Sales extends Model
 {
     use HasFactory;
 
@@ -17,8 +17,7 @@ class HourlySales extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'dateTime',
-        'hour',
+        'date',
         'user_id',
         'store_id',
         'product_id',
@@ -28,17 +27,15 @@ class HourlySales extends Model
 
     /**
      * @param $date
-     * @param $hour
      * @param $user_id
      * @param $store_id
      * @param $product_id
      * @return bool
      */
-    public static function searchRecord($date, $hour, $user_id, $store_id, $product_id): bool
+    public static function recordIsEmpty($date, $user_id, $store_id, $product_id): bool
     {
         return self::query()
-            ->where('dateTime', $date)
-            ->where('hour', $hour)
+            ->where('date', $date)
             ->where('user_id', $user_id)
             ->where('store_id', $store_id)
             ->where('product_id', $product_id)
@@ -48,14 +45,11 @@ class HourlySales extends Model
     /**
      * @return Builder[]|Collection
      */
-    public static function fetchLatestDailySale(): Collection|array
+    public static function fetchExistDate(): Collection|array
     {
         return self::query()
-            ->select('user_id', 'store_id', 'product_id')
-            ->selectRaw('max(quantity) as quantity')
-            ->selectRaw('DATE_FORMAT(dateTime, "%Y-%m-%d") AS date')
-            ->whereNotIn('dateTime', Sales::fetchExistDate())
-            ->groupBy('date', 'user_id', 'store_id', 'product_id')
+            ->selectRaw('DATE_FORMAT(date, "%Y-%m-%d") AS date')
+            ->groupBy('date')
             ->get();
     }
 }
