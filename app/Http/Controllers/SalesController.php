@@ -13,7 +13,7 @@ class SalesController extends Controller
      */
     public static function storeDailySales(): void
     {
-        foreach(HourlySales::fetchLatestDailySale() as $record) {
+        foreach(HourlySales::fetchLatestDailySales() as $record) {
             $date = $record['date'];
             $user_id = $record['user_id'];
             $store_id = $record['store_id'];

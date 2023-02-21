@@ -48,7 +48,7 @@ class HourlySales extends Model
     /**
      * @return Builder[]|Collection
      */
-    public static function fetchLatestDailySale(): Collection|array
+    public static function fetchLatestDailySales(): Collection|array
     {
         return self::query()
             ->select('user_id', 'store_id', 'product_id', 'quantity')
