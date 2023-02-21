@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -40,16 +38,5 @@ class Sales extends Model
             ->where('store_id', $store_id)
             ->where('product_id', $product_id)
             ->doesntExist();
-    }
-
-    /**
-     * @return Builder[]|Collection
-     */
-    public static function fetchExistDate(): Collection|array
-    {
-        return self::query()
-            ->selectRaw('DATE_FORMAT(date, "%Y-%m-%d") AS date')
-            ->groupBy('date')
-            ->get();
     }
 }
