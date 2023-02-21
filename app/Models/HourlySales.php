@@ -51,11 +51,14 @@ class HourlySales extends Model
     public static function fetchLatestDailySale(): Collection|array
     {
         return self::query()
-            ->select('user_id', 'store_id', 'product_id')
-            ->selectRaw('max(quantity) as quantity')
+            ->select('user_id', 'store_id', 'product_id', 'quantity')
             ->selectRaw('DATE_FORMAT(dateTime, "%Y-%m-%d") AS date')
-            ->whereNotIn('dateTime', Sales::fetchExistDate())
-            ->groupBy('date', 'user_id', 'store_id', 'product_id')
-            ->get();
+            ->whereIn('dateTime', function($query) {
+                $query->selectRaw('MAX(dateTime)')
+                    ->from('hourly_sales')
+                    ->where('dateTime', 'like', date('Y-m-d') . '%')
+                    ->groupBy('user_id','store_id', 'product_id')
+                    ->get();
+            })->get();
     }
 }
