@@ -21,9 +21,9 @@ class HourlySalesController extends Controller
             $store_id = StoreController::generateStoreId($user_id, $message['store_name']);
             $product_id = ProductController::generateProductId($user_id, $message['product_name'], $message['price']);
             $hour = self::roundTime(strtotime($message['date']));
-            if (HourlySales::searchRecord($message['date'], $hour, $user_id, $store_id, $product_id)) {
+            if (HourlySales::recordIsEmpty($message['date'], $hour, $user_id, $store_id, $product_id)) {
                 HourlySales::create([
-                    'date' => $message['date'],
+                    'dateTime' => $message['date'],
                     'hour' => $hour,
                     'user_id' => $user_id,
                     'store_id' => $store_id,

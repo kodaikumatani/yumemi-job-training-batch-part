@@ -42,6 +42,6 @@ class ManageMailboxes
             $mods->setRemoveLabelIds(['UNREAD']);
             $service->users_messages->modify('me', $message_id, $mods);
         }
-        return $data;
+        return array_filter($data);
     }
 }

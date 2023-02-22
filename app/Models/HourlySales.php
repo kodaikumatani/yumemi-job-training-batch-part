@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -15,7 +17,7 @@ class HourlySales extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'date',
+        'dateTime',
         'hour',
         'user_id',
         'store_id',
@@ -32,10 +34,10 @@ class HourlySales extends Model
      * @param $product_id
      * @return bool
      */
-    public static function searchRecord($date, $hour, $user_id, $store_id, $product_id): bool
+    public static function recordIsEmpty($date, $hour, $user_id, $store_id, $product_id): bool
     {
         return self::query()
-            ->where('date', $date)
+            ->where('dateTime', $date)
             ->where('hour', $hour)
             ->where('user_id', $user_id)
             ->where('store_id', $store_id)
@@ -43,4 +45,20 @@ class HourlySales extends Model
             ->doesntExist();
     }
 
+    /**
+     * @return Builder[]|Collection
+     */
+    public static function fetchLatestDailySales(): Collection|array
+    {
+        return self::query()
+            ->select('user_id', 'store_id', 'product_id', 'quantity')
+            ->selectRaw('DATE_FORMAT(dateTime, "%Y-%m-%d") AS date')
+            ->whereIn('dateTime', function($query) {
+                $query->selectRaw('MAX(dateTime)')
+                    ->from('hourly_sales')
+                    ->where('dateTime', 'like', date('Y-m-d') . '%')
+                    ->groupBy('user_id','store_id', 'product_id')
+                    ->get();
+            })->get();
+    }
 }

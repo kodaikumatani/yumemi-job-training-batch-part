@@ -15,7 +15,7 @@ class ProductController extends Controller
      */
     public static function generateProductId($id, $name, $price): int
     {
-        if (Product::searchRecord($id, $name, $price))  {
+        if (Product::recordIsEmpty($id, $name, $price))  {
             Product::create(['user_id' => $id, 'name' => $name, 'price' => $price]);
         }
         return Product::getProductId($id, $name, $price);

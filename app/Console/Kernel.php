@@ -10,12 +10,14 @@ class Kernel extends ConsoleKernel
     /**
      * Define the application's command schedule.
      *
-     * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
+     * @param Schedule $schedule
      * @return void
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+        $schedule->command('gmail:send')->hourlyAt(16)->between('10:00', '19:00');
+        $schedule->command('gmail:read')->hourlyAt(20)->between('10:00', '19:00');
+        $schedule->command('batch:closing')->dailyAt('20:00');
     }
 
     /**

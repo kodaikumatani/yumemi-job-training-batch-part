@@ -36,7 +36,7 @@ class Product extends Model
      * @param $price
      * @return bool
      */
-    public static function searchRecord($id, $name, $price): bool
+    public static function recordIsEmpty($id, $name, $price): bool
     {
         return self::query()
             ->where('user_id', $id)
