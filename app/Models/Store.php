@@ -21,19 +21,6 @@ class Store extends Model
     ];
 
     /**
-     * @param $id
-     * @param $name
-     * @return bool
-     */
-    public static function recordIsEmpty($id, $name): bool
-    {
-        return self::query()
-            ->where('user_id', $id)
-            ->where('name', $name)
-            ->doesntExist();
-    }
-
-    /**
      * The attributes that are mass assignable.
      *
      * @param $id
@@ -43,8 +30,8 @@ class Store extends Model
     public static function getStoreId($id, $name): int
     {
         return self::query()
-            ->where('user_id', $id)
-            ->where('name', $name)
-            ->value('id');
+            ->firstOrCreate(
+                ['user_id'=> $id, 'name' => $name]
+            )['id'];
     }
 }
