@@ -23,14 +23,14 @@ class ManageMailboxes
 
         $user = 'me';
         $optParams = [
-            'maxResults' => '10',
+            'maxResults' => '50',
             'labelIds' => 'UNREAD',
             'q' => "subject:JA鳥取いなば直売所売上速報　from:".config('mail.from.address')
         ];
         // Get a list of emails that match the conditions.
         $data = [];
         $messages = $service->users_messages->listUsersMessages($user,$optParams);
-        foreach ($messages->getMessages() as $message)   {
+        foreach ((array)$messages->getMessages() as $message)   {
             $message_id = $message->getID();
             $message_contents = $service->users_messages->get($user,$message_id);
             $internal_date = substr($message_contents->getInternalDate(),0,-3);
