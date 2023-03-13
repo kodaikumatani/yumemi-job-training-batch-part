@@ -22,7 +22,8 @@ class MailAnalysis
         }
         // Get proctor_id and proctor name
         $split_header = preg_split("/\r\n/",$split_message[0]);
-        $producer_name = str_replace(" 様", '', $split_header[1]);
+        $producer_code = str_replace('生産者コード:', '', $split_header[0]);
+        $producer_name = str_replace(' 様', '', $split_header[1]);
         // Divide sales-info by store.
         $stores = preg_split("/-+\r\n/", $split_message[2]);
 
@@ -40,9 +41,10 @@ class MailAnalysis
 
                 $record[] = [
                     'date' => $date,
-                    'producer_name' => $producer_name,
-                    'store_name' => $store_name,
-                    'product_name' => $product_name,
+                    'producer_code' => $producer_code,
+                    'producer' => $producer_name,
+                    'store' => $store_name,
+                    'product' => $product_name,
                     'price' => $price,
                     'quantity' => $quantity,
                 ];
