@@ -16,27 +16,10 @@ class Sales extends Model
      */
     protected $fillable = [
         'date',
+        'hour',
         'user_id',
         'store_id',
         'product_id',
-        'price',
         'quantity',
     ];
-
-    /**
-     * @param $date
-     * @param $user_id
-     * @param $store_id
-     * @param $product_id
-     * @return bool
-     */
-    public static function recordIsEmpty($date, $user_id, $store_id, $product_id): bool
-    {
-        return self::query()
-            ->where('date', $date)
-            ->where('user_id', $user_id)
-            ->where('store_id', $store_id)
-            ->where('product_id', $product_id)
-            ->doesntExist();
-    }
 }

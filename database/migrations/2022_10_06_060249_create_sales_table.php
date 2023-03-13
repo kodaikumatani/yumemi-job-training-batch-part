@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('sales', function (Blueprint $table) {
             $table->id();
             $table->date('date');
+            $table->unsignedInteger('hour');
             $table->foreignId('user_id')
                 ->constrained('users')
                 ->onDelete('cascade');
@@ -26,7 +27,7 @@ return new class extends Migration
                 ->constrained('products')
                 ->onDelete('cascade');
             $table->unsignedInteger('quantity');
-            $table->unique(['date', 'user_id', 'store_id', 'product_id']);
+            $table->unique(['date', 'hour', 'user_id', 'store_id', 'product_id']);
             $table->timestamps();
         });
     }
