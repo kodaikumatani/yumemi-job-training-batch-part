@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\HourlySales;
+use App\Models\Log;
+use App\Models\Product;
 use App\Models\Sales;
+use App\Models\Store;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class SalesController extends Controller
@@ -11,22 +14,35 @@ class SalesController extends Controller
     /**
      * @return void
      */
-    public static function storeDailySales(): void
+    public static function normalizeSalesLog(): void
     {
-        foreach(HourlySales::fetchLatestDailySales() as $record) {
-            $date = $record['date'];
-            $user_id = $record['user_id'];
-            $store_id = $record['store_id'];
-            $product_id = $record['product_id'];
-            if (Sales::recordIsEmpty($date, $user_id, $store_id, $product_id)) {
-                Sales::create([
-                    'date' => $date,
+        foreach(Log::fetchUpdatedSales() as $record) {
+            $user_id = User::getUserId($record['producer_code']);
+            $store_id = Store::getStoreId($user_id, $record['store']);
+            $product_id = Product::getProductId($user_id, $record['product'], $record['price']);
+            Sales::query()->updateOrCreate(
+                [
+                    'date' => date('Y-m-d', strtotime($record['dateTime'])),
+                    'hour' => self::roundTime(strtotime($record['dateTime'])),
                     'user_id' => $user_id,
                     'store_id' => $store_id,
-                    'product_id' => $product_id,
-                    'quantity' => $record['quantity'],
-                ]);
-            }
+                    'product_id' => $product_id
+                ],
+                [
+                    'quantity' => $record['subtotal']
+                ]
+            );
         }
+    }
+
+    /**
+     * @param $dateTime
+     * @return string
+     */
+    private static function roundTime($dateTime): string
+    {
+        $minutes = round(date('i', $dateTime) / 60) * 60;
+        $time = mktime(date('H', $dateTime), $minutes);
+        return date('H',$time);
     }
 }
