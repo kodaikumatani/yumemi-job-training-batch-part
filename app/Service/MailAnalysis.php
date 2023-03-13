@@ -39,7 +39,7 @@ class MailAnalysis
                 foreach (array_filter($products) as $product)   {
                     $items = preg_split("/\s+/", $product);
                     $product_name = str_replace('（鳥取県産）','',$items[1]);
-                    $price = str_replace('円','',$items[2]);
+                    $price = str_replace([',','円'],'',$items[2]);
                     $quantity = str_replace('個','',$items[3]);
 
                     $record[] = [
