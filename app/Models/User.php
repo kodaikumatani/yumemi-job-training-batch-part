@@ -45,13 +45,13 @@ class User extends Authenticatable
     /**
      * The attributes that are mass assignable.
      *
-     * @param $name
+     * @param $code
      * @return int
      */
-    public static function getUserId($name): int
+    public static function getUserId($code): int
     {
         return self::query()
-            ->where('name', $name)
+            ->where('producer_code', $code)
             ->value('id');
     }
 }
