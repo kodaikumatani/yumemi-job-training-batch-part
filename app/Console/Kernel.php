@@ -15,9 +15,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('gmail:send')->hourlyAt(16)->between('10:00', '19:00');
-        $schedule->command('gmail:read')->hourlyAt(20)->between('10:00', '19:00');
-        $schedule->command('batch:closing')->dailyAt('20:00');
+        $schedule->command('gmail:send')->hourlyAt(16)->between('10:00', '20:00');
+        $schedule->command('gmail:read')->hourlyAt(20)->between('10:00', '20:00');
     }
 
     /**
