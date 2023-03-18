@@ -23,7 +23,7 @@ class ManageMailboxes
 
         $user = 'me';
         $optParams = [
-            'maxResults' => '50',
+            'maxResults' => '10',
             'labelIds' => 'UNREAD',
             'q' => "subject:JA鳥取いなば直売所売上速報　from:".config('mail.from.address')
         ];

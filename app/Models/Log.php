@@ -22,6 +22,7 @@ class Log extends Model
         'product',
         'price',
         'quantity',
+        'store_total'
     ];
 
     /**
@@ -40,7 +41,17 @@ class Log extends Model
                         )
                     ),
                     0
-                ) as subtotal')
+                ) as quantity')
+            ->selectRaw('store_total -
+                COALESCE(
+                    (
+                        LAG(store_total) OVER (
+                            PARTITION BY store, product, price
+                            ORDER BY dateTime
+                        )
+                    ),
+                    0
+                ) as store_total')
             ->whereDate('dateTime', date('Y-m-d'))
             ->get()
             ->toArray();

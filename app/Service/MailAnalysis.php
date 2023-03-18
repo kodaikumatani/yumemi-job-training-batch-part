@@ -41,6 +41,11 @@ class MailAnalysis
                     $product_name = str_replace('（鳥取県産）','',$items[1]);
                     $price = str_replace([',','円'],'',$items[2]);
                     $quantity = str_replace('個','',$items[3]);
+                    try {
+                        $store_total = str_replace('個)','',$items[5]);
+                    } catch (Exception $e) {
+                        $store_total = $quantity;
+                    }
 
                     $record[] = [
                         'date' => $date,
@@ -50,6 +55,7 @@ class MailAnalysis
                         'product' => $product_name,
                         'price' => $price,
                         'quantity' => $quantity,
+                        'store_total' => $store_total,
                     ];
                 }
             }

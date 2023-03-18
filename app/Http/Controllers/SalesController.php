@@ -29,7 +29,8 @@ class SalesController extends Controller
                     'product_id' => $product_id
                 ],
                 [
-                    'quantity' => $record['subtotal']
+                    'quantity' => $record['quantity'],
+                    'store_total' => $record['store_total'],
                 ]
             );
         }

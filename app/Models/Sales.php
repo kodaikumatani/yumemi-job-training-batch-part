@@ -21,5 +21,6 @@ class Sales extends Model
         'store_id',
         'product_id',
         'quantity',
+        'store_total',
     ];
 }

@@ -26,7 +26,8 @@ class LogController extends Controller
                     'price' => $message['price'],
                 ],
                 [
-                    'quantity'=> $message['quantity']
+                    'quantity'=> $message['quantity'],
+                    'store_total' => $message['store_total'],
                 ]
             );
         }
