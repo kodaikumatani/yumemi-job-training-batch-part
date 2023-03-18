@@ -26,9 +26,10 @@ class Log extends Model
     ];
 
     /**
+     * @param $date
      * @return array
      */
-    public static function fetchUpdatedSales(): array
+    private static function computeHourlyQuantity($date): array
     {
         return self::query()
             ->select('dateTime', 'producer_code', 'store', 'product', 'price')
@@ -52,8 +53,33 @@ class Log extends Model
                     ),
                     0
                 ) as store_total')
-            ->whereDate('dateTime', date('Y-m-d'))
+            ->whereDate('dateTime', $date)
             ->get()
             ->toArray();
+    }
+
+    /**
+     * @return array
+     */
+    private static function fetchUpdatedSalesDate(): array
+    {
+        return self::query()
+            ->selectRaw('DATE_FORMAT(dateTime, "%Y-%m-%d") AS date')
+            ->where('updated_at', '>',date('Y-m-d H:i:s', strtotime('-1 minutes')))
+            ->groupBy('date')
+            ->get()
+            ->toArray();
+    }
+
+    /**
+     * @return array
+     */
+    public static function fetchUpdatedSales(): array
+    {
+        $array = [];
+        foreach (self::fetchUpdatedSalesDate() as $date) {
+            $array = array_merge($array, self::computeHourlyQuantity($date));
+        }
+        return $array;
     }
 }
