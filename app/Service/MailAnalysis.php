@@ -44,7 +44,11 @@ class MailAnalysis
                     try {
                         $store_total = str_replace('個)','',$items[5]);
                     } catch (Exception $e) {
-                        $store_total = $quantity;
+                        $store_total = NULL;
+                    }
+
+                    if ($product_name == '餅') {
+                        $product_name = 'もち';
                     }
 
                     $record[] = [
