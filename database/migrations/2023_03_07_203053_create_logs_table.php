@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('product');
             $table->unsignedInteger('price');
             $table->integer('quantity');
-            $table->integer('store_total');
+            $table->integer('store_total')->nullable();
             $table->timestamps();
         });
     }
